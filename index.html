@@ -1,17 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/black-tie/jquery-ui.min.css" integrity="sha256-MyuxfsvHhD1wixmCD+gnc3zfEQWfKEExEbhgBDgsabM=" crossorigin="anonymous" />
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete form with steps</title>
+    <title>Form with steps</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha256-KsRuvuRtUVvobe66OFtOQfjP8WA2SzYsmm4VPfMnxms=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        body {
+          background-color: #f1f1f1;
+        }
+        
+        #regForm {
+          background-color: #ffffff;
+          margin: 30px auto;
+          font-family: Raleway;
+          padding: 40px;
+          width: 70%;
+          min-width: 300px;
+        }
+        
+        h1 {
+          text-align: center;  
+        }
+        
+         {
+          /* padding: 10px;
+          width: 100%;
+          font-size: 17px;
+          font-family: 'Roboto-Regular' ;
+          border: 1px solid #aaaaaa; */
+        }
+        
+        input {
+            margin-bottom: 12px;
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #e44c6a;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            font-family: 'Roboto-Regular';
+        }
+        
+        /* Mark input boxes that gets an error on validation: */
+        input.invalid {
+          background-color: #ffdddd;
+          color: black !important;
+        }
+        
+        input.invalid::placeholder {
+          background-color: #ffdddd;
+          color: black !important;
+        }
+        
+        select.invalid {
+            background-color: #ffdddd;
+            color: black !important;
+        }
+        
+        /* Hide all steps by default: */
+        .tab {
+          display: none;
+        }
+        
+        button {
+            background-color: #ffffff;
+            color: #0079a8;
+            border: 1px solid #e44c6a;
+            padding: 10px 20px;
+            font-size: 17px;
+            font-family: 'Roboto-Black';
+            border-radius: 25px;
+            margin-top: 15px;
+        }
+        
+        button:hover {
+          opacity: 0.8;
+        }
+        
+        #prevBtn {
+          background-color: #ffe8ec;
+        }
+        
+        /* Make circles that indicate the steps of the form: */
+        .step {
+          height: 15px;
+          width: 15px;
+          margin: 0 2px;
+          background-color: #e44c6a;
+          border: none;  
+          border-radius: 50%;
+          display: inline-block;
+          opacity: 0.5;
+        }
+        
+        .step.active {
+          opacity: 1;
+        }
+        
+        select{
+            margin-bottom: 12px;
+        }
+        
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+          background-color: #e44c6a;
+        }
+        </style>
+        
         <section>
             <div class="container">
                 <div class="row">
@@ -31,210 +150,45 @@
                                 <p>
                                     <select name="sex" class="custom-select form-control" style="display:block" ;>
                                         <option value="" selected="selected" disabled="disabled">Sex</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
                                     </select>     
                                 </p>
                                 <p>
                                     <select name="maritalstatus" class="custom-select form-control" style="display:block";>
                                         <option value="" selected="selected" disabled="disabled">Marital status</option>
-                                        <option value="single">Single</option>
-                                        <option value="stableunion">Stable Union</option>
-                                        <option value="separte">Separate</option>
-                                        <option value="divorced">Divorced</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Stableunion">Stable Union</option>
+                                        <option value="Separte">Separate</option>
+                                        <option value="Divorced">Divorced</option>
                                     </select>
                                 </p>
                             </div>
-        
+                
                             <div class="tab">
-                                <p class="txtdescFormData">Other informations:</p>
+                                <p class="txtdescFormData">Dados do Seguro:</p>
                                 <p>
-                                    <select name="child" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Have children?</option>
+                                    <select name="seguronovo" class="custom-select form-control">
+                                        <option value="" selected="selected" disabled="disabled">Seguro Novo?</option>
                                         <option value="sim" name="Sim">Sim</option>
                                         <option value="nao" name="Não">Não</option>
                                     </select> 
                                 </p>
                                 <p>
                                     <select id="displayQuestion" name="rouboacidente" class="custom-select form-control" id="mySelect" onchange="myFunction()">
-                                        <option value="" selected="selected" disabled="disabled">Sofreu algum acidente ou roubo no último ano?</option>
-                                        <option id="sim" class="selector" name="yesOrNo" value="sim">Sim</option>
-                                        <option value="nao" class="selector" >Não</option>
+                                        <option value="" selected="selected" disabled="disabled">Have children?</option>
+                                        <option id="yes" value="yes" class="selector" name="yesOrNo">Sim</option>
+                                        <option value="no" class="selector" >Não</option>
                                     </select> 
                                 </p>
                                 <p>
                                     <select name="seguradorasseguros" class="custom-select form-control yesQuestion" style="display:none;">
                                         <option value="Não selecionado" selected="selected">Não Selecionado</option>
                                         <option value="Alfa">Alfa Seguros</option>
-                                        <option value="Aliro">Aliro Seguros</option>
-                                        <option value="Allianz">Allianz</option>
-                                        <option value="BBSeguro">BB Seguro</option>
-                                        <option value="Bradesco">Bradesco </option>
-                                        <option value="Caixa">Caixa Seguradora</option>
-                                        <option value="Chubb">Chubb</option>
-                                        <option value="Generali">Generali</option>
-                                        <option value="HDI">HDI Seguros</option>
-                                        <option value="Indiana">Indiana Seguradora</option>
-                                        <option value="Itau">Itau Seguros</option>
-                                        <option value="Liberty">Liberty Seguros</option>
-                                        <option value="Mapfre">Mapfre Seguradora</option>
-                                        <option value="Mitsui">Mitsui Seguros</option>
-                                        <option value="Porto">Porto Seguro</option>
-                                        <option value="Suhai">Suhai Seguros</option>
-                                        <option value="Sulamérica">Sulamérica</option>
-                                        <option value="Youse">Youse</option>
-                                        <option value="Zurich">Zurich Seguros</option>
                                     </select>
                                 </p>
                                 <p><input style="display:none;" class="custom-select form-control data yesQuestion" datepicker= "data" name="dataVenc" placeholder="Data de Vencimento" type="text" /></p>
-                                <p>
-                                    <input style="display:none;" class="custom-select form-control yesQuestion"  name="classebonus" placeholder="Caso saiba mais, informe sua classe de Bônus" onkeydown="return false" type="number" min="0" max="10" />   
-                                </p>
-                            </div>
-                            <div class="tab">
-                                <p class="txtdescFormData">Dados do Veículo:</p>
-                                <p>
-                                    <select name="marcasveic" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Marcas</option>
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="fiat">Fiat</option>
-                                        <option value="audi">Audi</option>
-                                    </select>
-                                </p>
-                                <p><input class="custom-select form-control" id="modelo" name="modeloveic" placeholder="Modelo" type="text" /></p>
-                                <p>
-                                    <select name="veiczero" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Veículo ZERO KM?</option>
-                                        <option id="sim" name="yesOrNo" value="sim">Sim</option>
-                                        <option value="nao">Não</option>
-                                    </select> 
-                                </p>
-                                <p>
-                                    <input class="custom-select form-control" id="anofabveic" name="anofabveic" placeholder="Ano de Fabricação" type="number" />  
-                                </p>
-                                <p>
-                                    <input class="custom-select form-control" id="anomodelveic" name="anomodelveic" placeholder="Ano do Modelo" type="number" />       
-                                </p>
-                                <p>
-                                    <input class="custom-select form-control" id="placa" name="placaveic" placeholder="Placa" type="text" onkeyup="this.value = this.value.toUpperCase();" maxlength="7" />  
-                                </p>
-                            </div>
-                            <div class="tab">
-                                <p class="txtdescFormData">Dados do Condutor:</p>
-                                <p>
-                                    <select name="condprincipal" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Você é principal condutor do veículo?</option>
-                                        <option id="sim" name="sim" value="sim">Sim</option>
-                                        <option value="nao">Não</option>
-                                    </select> 
-                                </p>
-                                <p>
-                                    <input type="text" name="nomecondutor" class="custom-select form-control" required placeholder="Nome Completo" />
-                                </p>
-                                <p>
-                                    <input type="text" name="cpfcondutor" class="custom-select form-control cpf" required placeholder="CPF" type="number"/>
-                                </p>
-                                <p>
-                                    <input class="custom-select form-control data" id="date"  datepicker= "data" name="datanasccond" placeholder="Data de Nascimento" type="text"/>
-                                </p>
-                                <p>
-                                    <select name="sexocond" class="custom-select form-control" required>
-                                        <option value="" selected="selected" disabled="disabled">Sexo</option>
-                                        <option value="masculino">Masculino</option>
-                                        <option value="feminino">Feminino</option>
-                                        <option value="outro">Outro</option>
-                                    </select>    
-                                </p>
-                                <p>
-                                    <select name="estadocivilcond" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Estado Civil</option>
-                                        <option value="Solteiro(a)">Solteiro(a)</option>
-                                        <option value="UniãoEstável">União Estável</option>
-                                        <option value="Separado(a)">Separado(a)</option>
-                                        <option value="Divorciado(a)">Divorciado(a)</option>
-                                    </select>  
-                                </p>
-                                <p>
-                                    <input class="custom-select form-control" id="profissaocondutor" name="profissaocondutor" placeholder="Profissão" type="text" />  
-                                </p>
-                                <p>
-                                    <select name="relacaosegurado" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Qual relação com Segurado?</option>
-                                        <option value="Filhos">Filhos</option>
-                                        <option value="Pais">Pais</option>
-                                        <option value="Conjugês">Conjugês</option>
-                                        <option value="Sócio/Diretor">Sócio/Diretor</option>
-                                        <option value="Funcionários">Funcionários</option>
-                                        <option value="Outros">Outros</option>
-                                    </select>
-                                </p>
-                                <p>
-                                     <select name="jovens" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Mora com jovens com menos de 26 anos?</option>
-                                        <option value="simutilizam">Sim e utilizam veículo</option>
-                                        <option value="naoutilizam">Sim e não utilizam o veículo</option>
-                                        <option value="nao">Não</option>
-                                    </select>
-                                </p>
-                            </div>
-                            <div class="tab">
-                                <p class="txtdescFormData">Dados do Uso do Veículo:</p>
-                                <p>
-                                    <input type="text" name="cep" class="custom-select form-control cep" required placeholder="CEP" type="text"/>
-                                </p>
-                                <p>
-                                    <select name="garagemresidencia" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Possui Garagem na Residência?</option>
-                                        <option value="simportaoeletronico">Sim, com portão eletrônico</option>
-                                        <option value="simportaomanual">Sim, com portão manual</option>
-                                        <option value="naopossuo">Não possuo</option>
-                                    </select>
-                                </p>
-                                <p>
-                                     <select name="garagemtrabalho" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Possui Garagem no Trabalho?</option>
-                                        <option value="Sim">Sim</option>
-                                        <option value="Nao">Não</option>
-                                        <option value="naoparaofim">Não utiliza para esse fim</option>
-                                    </select>
-                                </p>
-                                <p>
-                                    <select name="garagemestudo" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Possui Garagem no Curso/Estudo?</option>
-                                        <option value="Sim">Sim</option>
-                                        <option value="Nao">Não</option>
-                                        <option value="naoparaofim">Não utiliza para esse fim</option>
-                                    </select>
-                                </p>
-                            </div>
-                            <div class="tab">
-                                <p class="txtdescFormData">Questões importantes:</p>
-                                <p>
-                                    <input type="text" name="cep" class="custom-select form-control cep" required placeholder="CEP" type="text"/>
-                                </p>
-                                <p>
-                                    <select name="contatoquestoes" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Como você prefere falar com a gente?</option>
-                                        <option value="Whatsapp">Whatsapp</option>
-                                        <option value="Telefone">Telefone</option>
-                                        <option value="E-mail">E-mail</option>
-                                        <option value="Todas as Opções">Todas as Opções</option>
-                                    </select>
-                                </p>
-                                <p>
-                                     <select name="horarioquestoes" class="custom-select form-control">
-                                        <option value="" selected="selected" disabled="disabled">Qual o melhor horário pra falar com você?</option>
-                                        <option value="0700as0830">07hs às 08:30</option>
-                                        <option value="0831as1000">08:31 às 10:00</option>
-                                        <option value="1001as1200">10:01 ao 12:00</option>
-                                        <option value="1201as1400">12:01 às 14:00</option>
-                                        <option value="1401as1630">14:01 às 16:30</option>
-                                        <option value="1631as1800">16:31 às 18:00</option>
-                                        <option value="apos1800">Após as 18hs</option>
-                                    </select>
-                                </p>
                             </div>
                             <div style="overflow:auto;"> 
                                 <div style="float:right;"> 
@@ -245,11 +199,7 @@
                             <!-- Circles which indicates the steps of the form: -->
                             <div style="text-align:center;margin-top:40px;">
                                 <span class="step"></span>
-                                <span class="step"></span>
-                                <span class="step"></span>
-                                <span class="step"></span>
-                                <span class="step"></span>
-                                <span class="step"></span>
+                                <span class="step"></span>  
                             </div>
                         </form>
                     </div>
@@ -376,7 +326,7 @@
                     var x = document.getElementById("displayQuestion").value;
                     console.log(x);
         
-                    if (x == "sim") { // hide the div that is not selected
+                    if (x == "yes") { // hide the div that is not selected
                         $('.yesQuestion').css("display", "block");
                     }else{
                         $('.yesQuestion').css("display", "none");
